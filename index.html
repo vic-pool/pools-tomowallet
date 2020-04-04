@@ -13,7 +13,7 @@
             background: #191D34;
             color: #ffffff;
             font-family: sans-serif;
-            margin: 10px 15px;
+            margin: 10px;
         }
 
         h2 {
@@ -62,105 +62,77 @@
 
         .item-name {
             color: #ffffff;
-            font-size: 20px;
+            font-size: 19px;
             font-weight: bold;
         }
 
         .item-des {
             color: rgba(255, 255, 255, 0.5);
             font-size: 14px;
-            margin-top: 7px;
+            margin-top: 8px;
             font-weight: 300;
         }
 
         .item-info {
             width: calc(100% - 75px);
-            padding-left: 15px;
+            padding-left: 10px;
+        }
+
+        .bold {
+            font-weight: bold;
+            color: #fff;
+        }
+        .roi {
+            float: right;
+            font-size: 15px;
+            margin-top: 2px;
+            margin-right: -5px;
+        }
+        @media (max-width: 359px) {
+            .hide360px {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
-<a class="item" href="https://bigpool.tomopool.com/">
-    <div class="item-icon png">
-      <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">BigPool</div>
-        <div class="item-des">Decentralized staking service protocol running on the TomoChain blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://deadpool.tomopool.com/">
-    <div class="item-icon png">
-      <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">DeadPool</div>
-        <div class="item-des">Decentralized staking service protocol running on the TomoChain blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://deep.tomopool.com/">
-    <div class="item-icon png">
-      <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">DeepPool</div>
-        <div class="item-des">Decentralized staking service protocol running on the TomoChain blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://infinite.tomopool.com/">
-    <div class="item-icon png">
-        <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">InfinitePool</div>
-        <div class="item-des">Decentralized staking service protocol running on the TomoChain blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://walking.tomopool.com/">
-    <div class="item-icon png">
-        <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">WalkingPool</div>
-        <div class="item-des">The decentralized staking pool on TomoChain Blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://tomostake.tomopool.com/">
-    <div class="item-icon png">
-        <img src="public/imgs/tomostake-new.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">TomoStake</div>
-        <div class="item-des">The decentralized staking pool on TomoChain Blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://swimming.tomopool.com/">
-    <div class="item-icon png">
-        <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">SwimmingPool</div>
-        <div class="item-des">The decentralized staking pool on TomoChain Blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://coin98.tomopool.com/">
-    <div class="item-icon png">
-        <img src="public/imgs/coin98pool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">Coin98Pool</div>
-        <div class="item-des">Coin98 community staking pool on TomoChain Blockchain</div>
-    </div>
-</a>
-<a class="item" href="https://staking.tomopool.com/">
-    <div class="item-icon png">
-        <img src="public/imgs/tomopool.png" alt="">
-    </div>
-    <div class="item-info">
-        <div class="item-name">TomoPool</div>
-        <div class="item-des">The first decentralized staking pool on TomoChain Blockchain</div>
-    </div>
-</a>
+<div id="main">
+</div>
+
 </body>
+<script src="public/js/jquery.min.js"></script>
+<script>
+    formatNumber = function (number) {
+        let seps = number.toString().split('.')
+        seps[0] = seps[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+        return seps.join('.')
+    }
+    formatTomo = function (num) {
+        return Math.floor(num * 100) / 100
+    }
+    $(document).ready(function() {
+        $.get('https://api.tomopool.com/api/candidates', function (data) {
+            let candidates = data.candidates
+            for (let i = 0; i < candidates.length; i++) {
+                $('#main').append(`
+                <a class="item" href="https://summer.tomopool.com/">
+                    <div class="item-icon png">
+                        <img src="public/imgs/${candidates[i].avatar}" alt="">
+                    </div>
+                    <div class="item-info">
+                        <div class="item-name">
+                            ${candidates[i].name} <span class="roi"><span class="hide360px">ROI:</span> ${candidates[i].roiPercent}%</span>
+                        </div>
+                        <div class="item-des">
+                            Capacity: ${formatNumber(formatTomo(candidates[i].capacity))} /
+                            ${formatNumber(formatTomo(candidates[i].maxCapacity))}<span class="hide360px"> TOMO</span>
+                        </div>
+                    </div>
+                </a>
+                `)
+            }
+        })
+    });
+</script>
 
 </html>
