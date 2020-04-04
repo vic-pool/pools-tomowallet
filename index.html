@@ -115,7 +115,7 @@
             let candidates = data.candidates
             for (let i = 0; i < candidates.length; i++) {
                 $('#main').append(`
-                <a class="item" href="https://summer.tomopool.com/">
+                <a class="item" href="${candidates[i].domain}">
                     <div class="item-icon png">
                         <img src="public/imgs/${candidates[i].avatar}" alt="">
                     </div>
