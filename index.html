@@ -121,7 +121,8 @@
                     </div>
                     <div class="item-info">
                         <div class="item-name">
-                            ${candidates[i].name} <span class="roi"><span class="hide360px">ROI:</span> ${candidates[i].roiPercent}%</span>
+                            ${candidates[i].name} <span class="roi">
+                            ${candidates[i].status === 'PENDING' ? 'PENDING' : '<span class="hide360px">ROI:</span> ' + candidates[i].roiPercent + '</span>'}
                         </div>
                         <div class="item-des">
                             Capacity: ${formatNumber(formatTomo(candidates[i].capacity))} /
