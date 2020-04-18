@@ -117,10 +117,6 @@
     let staker = ''
 
     async function loginViaMetamask(cb) {
-        if (typeof window.web3 == 'undefined') {
-            return cb && cb('MetaMask is not installed')
-        }
-
         web3 = new Web3(window.web3.currentProvider);
 
         staker = await new Promise((resolve, reject) => {
@@ -138,6 +134,7 @@
                 }
             });
         })
+        console.log('staker', staker)
 
     }
     async function loginViaPantograph(cb) {
@@ -222,6 +219,7 @@
                     await login({trustwallet: true})
                 }
                 else if (window.web3.currentProvider.isMetaMask) {
+                    console.log('metamask')
                     await login({metamask: true})
                 } else {
                     await login({other: true})
