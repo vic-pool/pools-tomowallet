@@ -42,6 +42,7 @@
         }
 
         .item-icon {
+            margin-top: 3px;
             width: 60px;
             height: 60px;
             border-radius: 5px;
@@ -93,6 +94,9 @@
                 display: none;
             }
         }
+        .you-stake {
+            margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -110,8 +114,129 @@
     formatTomo = function (num) {
         return Math.floor(num * 100) / 100
     }
-    $(document).ready(function() {
-        $.get('https://api.tomopool.com/api/candidates', function (data) {
+    let staker = ''
+
+    async function loginViaMetamask(cb) {
+        if (typeof window.web3 == 'undefined') {
+            return cb && cb('MetaMask is not installed')
+        }
+
+        web3 = new Web3(window.web3.currentProvider);
+
+        staker = await new Promise((resolve, reject) => {
+            window.web3.eth.getAccounts(async function (err, accounts) {
+                if (err) {
+                    return reject(err)
+                }
+                else if (accounts.length === 0) {
+                    return null
+                }
+                if (Array.isArray(accounts)) {
+                    return resolve(accounts[0])
+                } else {
+                    return resolve(accounts)
+                }
+            });
+        })
+
+    }
+    async function loginViaPantograph(cb) {
+        if (typeof window.tomochain == 'undefined') {
+            return cb && cb('Pantograph is not installed')
+        }
+
+        web3 = new Web3(window.tomochain);
+        staker = await new Promise((resolve, reject) => {
+            window.web3.eth.getAccounts(async function (err, accounts) {
+                if (err) {
+                    return reject(err)
+                } else if (accounts.length === 0) {
+                    return reject(null)
+                }
+                if (Array.isArray(accounts)) {
+                    return resolve(accounts[0])
+                } else {
+                    return resolve(accounts)
+                }
+            })
+        })
+    }
+
+    async function loginViaTomoWallet() {
+        web3 = new Web3(window.web3.currentProvider);
+        staker = await new Promise((resolve, reject) => {
+            window.web3.eth.getAccounts(async function (err, accounts) {
+                if (err) {
+                    return reject(err)
+                } else if (accounts.length === 0) {
+                    return reject(null)
+                }
+                if (Array.isArray(accounts)) {
+                    return resolve(accounts[0])
+                } else {
+                    return resolve(accounts)
+                }
+            })
+        })
+    }
+
+    async function loginViaOtherBrowser() {
+        web3 = window.web3
+        staker = await new Promise((resolve, reject) => {
+            window.web3.eth.getAccounts(async function (err, accounts) {
+                if (err) {
+                    return reject(err)
+                } else if (accounts.length === 0) {
+                    return reject(null)
+                }
+                if (Array.isArray(accounts)) {
+                    return resolve(accounts[0])
+                } else {
+                    return resolve(accounts)
+                }
+            })
+        })
+    }
+    login = async function (data) {
+        if (data.metamask) {
+            await loginViaMetamask();
+        }
+        else if (data.tomowallet) {
+            await loginViaTomoWallet();
+        }
+        else if (data.trustwallet) {
+            await loginViaMetamask();
+        } else if (data.other) {
+            await loginViaOtherBrowser()
+        } else if (data.pantograph) {
+            await loginViaPantograph()
+        }
+    }
+    $(document).ready(async function() {
+        if (window.web3) {
+            if (window.web3.currentProvider) {
+                if (window.web3.currentProvider.isTomoWallet) {
+                    await login({tomowallet: true})
+                }
+                else if (window.web3.currentProvider.isTrust) {
+                    await login({trustwallet: true})
+                }
+                else if (window.web3.currentProvider.isMetaMask) {
+                    await login({metamask: true})
+                } else {
+                    await login({other: true})
+                }
+            } else {
+                await login({other: true})
+            }
+        } else if (window.tomochain) {
+            await login({pantograph: true})
+        }
+        let url = 'https://api.tomopool.com/api/candidates'
+        if (staker !== '') {
+            url += '?staker=' + staker
+        }
+        $.get(url, function (data) {
             let candidates = data.candidates
             for (let i = 0; i < candidates.length; i++) {
                 $('#main').append(`
@@ -125,8 +250,11 @@
                             ${candidates[i].status === 'PENDING' ? 'PENDING' : '<span class="hide360px">ROI:</span> ' + candidates[i].roiPercent + '</span>'}
                         </div>
                         <div class="item-des">
-                            Capacity: ${formatNumber(formatTomo(candidates[i].capacity))} /
-                            ${formatNumber(formatTomo(candidates[i].maxCapacity))}<span class="hide360px"> TOMO</span>
+                            <div>
+                                Capacity: ${formatNumber(formatTomo(candidates[i].capacity))} /
+                                ${formatNumber(formatTomo(candidates[i].maxCapacity))}<span class="hide360px"> TOMO</span>
+                            </div>
+                            <div class="you-stake">${candidates[i].youStaked > 0 ? 'You Stake: ' + formatNumber(formatTomo(candidates[i].youStaked)) +  ' TOMO' : ''}</div>
                         </div>
                     </div>
                 </a>
