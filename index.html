@@ -116,11 +116,12 @@
     }
     let staker = ''
 
-    async function loginViaMetamask(cb) {
+    async function loginViaMetamask() {
         web3 = new Web3(window.web3.currentProvider);
 
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
+                console.log(err, accounts)
                 if (err) {
                     return reject(err)
                 }
@@ -137,11 +138,7 @@
         console.log('staker', staker)
 
     }
-    async function loginViaPantograph(cb) {
-        if (typeof window.tomochain == 'undefined') {
-            return cb && cb('Pantograph is not installed')
-        }
-
+    async function loginViaPantograph() {
         web3 = new Web3(window.tomochain);
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
