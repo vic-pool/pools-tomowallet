@@ -126,7 +126,7 @@
                     return reject(err)
                 }
                 else if (accounts.length === 0) {
-                    return null
+                    return reject(null)
                 }
                 if (Array.isArray(accounts)) {
                     return resolve(accounts[0])
