@@ -122,7 +122,6 @@
 
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
-                console.log(err, accounts)
                 if (err) {
                     return resolve('')
                 }
@@ -136,7 +135,6 @@
                 }
             });
         })
-        console.log('staker', staker)
 
     }
     async function loginViaPantograph() {
@@ -218,7 +216,6 @@
                     await login({trustwallet: true})
                 }
                 else if (window.web3.currentProvider.isMetaMask) {
-                    console.log('metamask')
                     await login({metamask: true})
                 } else {
                     await login({other: true})
