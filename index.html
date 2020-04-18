@@ -123,10 +123,10 @@
             window.web3.eth.getAccounts(async function (err, accounts) {
                 console.log(err, accounts)
                 if (err) {
-                    return reject(err)
+                    return resolve('')
                 }
                 else if (accounts.length === 0) {
-                    return reject(null)
+                    return resolve('')
                 }
                 if (Array.isArray(accounts)) {
                     return resolve(accounts[0])
@@ -143,9 +143,9 @@
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
                 if (err) {
-                    return reject(err)
+                    return resolve('')
                 } else if (accounts.length === 0) {
-                    return reject(null)
+                    return resolve('')
                 }
                 if (Array.isArray(accounts)) {
                     return resolve(accounts[0])
@@ -161,9 +161,9 @@
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
                 if (err) {
-                    return reject(err)
+                    return resolve('')
                 } else if (accounts.length === 0) {
-                    return reject(null)
+                    return resolve('')
                 }
                 if (Array.isArray(accounts)) {
                     return resolve(accounts[0])
@@ -179,9 +179,9 @@
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
                 if (err) {
-                    return reject(err)
+                    return resolve('')
                 } else if (accounts.length === 0) {
-                    return reject(null)
+                    return resolve('')
                 }
                 if (Array.isArray(accounts)) {
                     return resolve(accounts[0])
