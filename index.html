@@ -117,6 +117,7 @@
     let staker = ''
 
     async function loginViaMetamask() {
+        await window.ethereum.enable()
         web3 = new Web3(window.web3.currentProvider);
 
         staker = await new Promise((resolve, reject) => {
@@ -139,6 +140,7 @@
 
     }
     async function loginViaPantograph() {
+        await window.tomochain.enable()
         web3 = new Web3(window.tomochain);
         staker = await new Promise((resolve, reject) => {
             window.web3.eth.getAccounts(async function (err, accounts) {
