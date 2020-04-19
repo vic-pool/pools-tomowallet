@@ -233,6 +233,7 @@
         $.get(url, function (data) {
             let candidates = data.candidates
             for (let i = 0; i < candidates.length; i++) {
+                let roiPercent = candidates[i].roiPercent >= 0 ? candidates[i].roiPercent : 0
                 $('#main').append(`
                 <a class="item" href="${candidates[i].domain}">
                     <div class="item-icon png">
@@ -240,9 +241,12 @@
                     </div>
                     <div class="item-info">
                         <div class="item-name">
-                            ${candidates[i].name} <span class="roi">
-                            ${candidates[i].status === 'PENDING' ? 'PENDING' : '<span class="hide360px">ROI:</span> ' +
-                                candidates[i].roiPercent > 0 ? candidates[i].roiPercent : 0 + '</span>'}
+                            ${candidates[i].name}
+                            <span class="roi">
+                                ${candidates[i].status === 'PENDING' ? 'PENDING' : '' +
+                '               <span class="hide360px">ROI:</span> ' + roiPercent +
+                            '</span>'
+                            }
                         </div>
                         <div class="item-des">
                             <div>
