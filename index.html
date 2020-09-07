@@ -338,7 +338,7 @@
                         <div class="item-name">
                             ${candidates[i].name}
                             <span class="roi">
-                                ${candidates[i].status === 'PENDING' ? 'PENDING' : '' +
+                                ${['PENDING', 'RESIGNED', 'CANCEL'].includes(candidates[i].status) ? candidates[i].status : '' +
                 '               <span class="hide360px">ROI:</span> ' + roiPercent +
                             '</span>'
                             }
