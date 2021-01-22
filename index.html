@@ -107,6 +107,9 @@
         .you-stake {
             margin-top: 5px;
         }
+        .withdraw-waiting {
+            margin-top: 5px;
+        }
         .text-center {
             text-align: center!important;
         }
@@ -348,7 +351,12 @@
                                 Capacity: ${formatNumber(formatTomo(candidates[i].capacity))} /
                                 ${formatNumber(formatTomo(candidates[i].maxCapacity))}<span class="hide360px"> TOMO</span>
                             </div>
-                            <div class="you-stake">${candidates[i].youStaked > 0 ? 'You Stake: ' + formatNumber(formatTomo(candidates[i].youStaked)) +  ' TOMO' : ''}</div>
+                            <div class="you-stake">
+                                ${candidates[i].youStaked > 0 ? 'You Stake: ' + formatNumber(formatTomo(candidates[i].youStaked)) + ' TOMO' : ''}
+                            </div>
+                            <div class="withdraw-waiting">
+                                ${candidates[i].withdrawWaiting > 0 ? 'Withdraw Waiting: ' + formatNumber(formatTomo(candidates[i].withdrawWaiting)) + ' TOMO' : ''}
+                            </div>
                         </div>
                     </div>
                 </a>
