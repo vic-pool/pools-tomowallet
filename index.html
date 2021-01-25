@@ -214,9 +214,29 @@
     }
     let staker = ''
 
-    async function loginViaMetamask() {
+    async function loginViaNewMetamask() {
         const accounts = await ethereum.request({ method: 'eth_accounts' })
         staker = accounts[0]
+    }
+    async function loginViaMetamask() {
+        await window.ethereum.enable()
+        web3 = new Web3(window.web3.currentProvider);
+
+        staker = await new Promise((resolve, reject) => {
+            window.web3.eth.getAccounts(async function (err, accounts) {
+                if (err) {
+                    return resolve('')
+                }
+                else if (accounts.length === 0) {
+                    return resolve('')
+                }
+                if (Array.isArray(accounts)) {
+                    return resolve(accounts[0])
+                } else {
+                    return resolve(accounts)
+                }
+            });
+        })
 
     }
     async function loginViaPantograph() {
@@ -277,6 +297,9 @@
         if (data.metamask) {
             await loginViaMetamask();
         }
+        if (data.newMetamask) {
+            await loginViaNewMetamask();
+        }
         else if (data.tomowallet) {
             await loginViaTomoWallet();
         }
@@ -289,7 +312,9 @@
         }
     }
     $(document).ready(async function() {
-        if (window.web3) {
+        if (window.ethereum) {
+            await login({newMetamask: true})
+        } else if (window.web3) {
             if (window.web3.currentProvider) {
                 if (window.web3.currentProvider.isTomoWallet) {
                     await login({tomowallet: true})
@@ -307,8 +332,6 @@
             }
         } else if (window.tomochain) {
             await login({pantograph: true})
-        } else if (window.ethereum) {
-            await login({metamask: true})
         }
         let url = 'https://api-v2.tomopool.com/api/candidates'
         if (staker !== '') {
