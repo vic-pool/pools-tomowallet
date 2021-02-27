@@ -107,6 +107,9 @@
         .you-stake {
             margin-top: 5px;
         }
+        .withdraw-waiting {
+            margin-top: 5px;
+        }
         .text-center {
             text-align: center!important;
         }
@@ -211,6 +214,10 @@
     }
     let staker = ''
 
+    async function loginViaNewMetamask() {
+        const accounts = await ethereum.request({ method: 'eth_accounts' })
+        staker = accounts[0]
+    }
     async function loginViaMetamask() {
         await window.ethereum.enable()
         web3 = new Web3(window.web3.currentProvider);
@@ -290,6 +297,9 @@
         if (data.metamask) {
             await loginViaMetamask();
         }
+        if (data.newMetamask) {
+            await loginViaNewMetamask();
+        }
         else if (data.tomowallet) {
             await loginViaTomoWallet();
         }
@@ -302,7 +312,9 @@
         }
     }
     $(document).ready(async function() {
-        if (window.web3) {
+        if (window.ethereum) {
+            await login({newMetamask: true})
+        } else if (window.web3) {
             if (window.web3.currentProvider) {
                 if (window.web3.currentProvider.isTomoWallet) {
                     await login({tomowallet: true})
@@ -348,7 +360,12 @@
                                 Capacity: ${formatNumber(formatTomo(candidates[i].capacity))} /
                                 ${formatNumber(formatTomo(candidates[i].maxCapacity))}<span class="hide360px"> TOMO</span>
                             </div>
-                            <div class="you-stake">${candidates[i].youStaked > 0 ? 'You Stake: ' + formatNumber(formatTomo(candidates[i].youStaked)) +  ' TOMO' : ''}</div>
+                            <div class="you-stake">
+                                ${candidates[i].youStaked > 0 ? 'You Stake: ' + formatNumber(formatTomo(candidates[i].youStaked)) + ' TOMO' : ''}
+                            </div>
+                            <div class="withdraw-waiting">
+                                ${candidates[i].withdrawWaiting > 0 ? 'Withdraw Waiting: ' + formatNumber(formatTomo(candidates[i].withdrawWaiting)) + ' TOMO' : ''}
+                            </div>
                         </div>
                     </div>
                 </a>
