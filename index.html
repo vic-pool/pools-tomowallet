@@ -203,6 +203,20 @@
 
 </body>
 <script src="public/js/jquery.min.js"></script>
+
+<!-- Google Analytics -->
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-45781124-3', 'auto');
+    ga('send', 'pageview');
+</script>
+<!-- End Google Analytics -->
+
+<script src="public/js/web3.min.js"></script>
 <script>
     formatNumber = function (number) {
         let seps = number.toString().split('.')
@@ -215,6 +229,7 @@
     let staker = ''
 
     async function loginViaNewMetamask() {
+        await ethereum.enable()
         const accounts = await ethereum.request({ method: 'eth_accounts' })
         staker = accounts[0]
     }
@@ -312,9 +327,7 @@
         }
     }
     $(document).ready(async function() {
-        if (window.ethereum) {
-            await login({newMetamask: true})
-        } else if (window.web3) {
+        if (window.web3) {
             if (window.web3.currentProvider) {
                 if (window.web3.currentProvider.isTomoWallet) {
                     await login({tomowallet: true})
@@ -330,6 +343,9 @@
             } else {
                 await login({other: true})
             }
+        }
+        else if (window.ethereum) {
+            await login({newMetamask: true})
         } else if (window.tomochain) {
             await login({pantograph: true})
         }
