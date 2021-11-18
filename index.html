@@ -8,6 +8,7 @@
     <meta http-equiv="content-type" content="text/html;charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" href="public/imgs/tomopool-new-logo.png">
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @font-face {
             font-family: 'tomomaster';
@@ -35,7 +36,6 @@
         footer {
             color: rgba(255, 255, 255, 0.5);
             text-align: center;
-            padding: 20px 20px;
         }
 
         a {
@@ -163,46 +163,162 @@
         i.large {
             font-size: 30px;
         }
+        #wrap {
+            padding-bottom: 120px;
+            padding-top: 48px;
+        }
+        header {
+            position:fixed;
+            top:0;
+            left:0;
+            height: 48px;
+            background: #191D34;
+            margin: auto;
+            padding-top: 5px;
+            width: 100%;
+        }
+        footer {
+            position:fixed;
+            bottom:0;
+            left:0;
+            height: 120px;
+            width: 100%;
+            background: #191D34;
+        }
+        .footer {
+            padding-top: 5px;
+        }
+        #exampleModalCenter .modal-content {
+            /*color: #000;*/
+            background-color: rgb(49, 53, 53) !important;
+        }
+        #exampleModalCenter h2 {
+            color: #fff;
+            margin-top: 0;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .close {
+            color: #fff;
+        }
+        .close:focus, .close:hover {
+            color: #eee;
+        }
     </style>
 </head>
 <body>
-<div id="main">
+<header>
+    <div class="text-center">
+    <button type="button" class="btn btn-dark" data-toggle="modal" id="checkAirdrop" data-target="#exampleModalCenter">
+        Check tDAO airdrop
+    </button>
+    </div>
+</header>
+<div id="wrap">
+    <div id="main">
+    </div>
 </div>
-<div class="footer text-center mt-3">
-    <ul class="list-inline">
-        <li class="list-inline-item">
-            <a href="NeedHelp.html">
-                <i class="tm-lifebuoy mr-1"></i> Need help?</a>
-        </li>
-        <li class="list-inline-item">
-            <a href="PrivacyPolicy.html">
-            <i class="tm-lock mr-1"></i> Privacy Policy</a>
-        </li>
-        <li class="list-inline-item">
-            <a href="TermOfUse.html">
-                <i class="tm-profile mr-1"></i> Terms of Use</a>
-        </li>
-<!--        <li class="list-inline-item">-->
-<!--            <a href="/api-docs">-->
-<!--                <i class="tm-checklist mr-1"></i>API Documentation</a>-->
-<!--        </li>-->
-    </ul>
-    <ul class="list-inline">
-        <li class="list-inline-item">
-            <a href="https://t.me/tomopool"><i class="tm-telegram large"></i></a>
-        </li>
-        <li class="list-inline-item">
-            <a href="https://twitter.com/tomopoolann"><i class="tm-twitter large"></i></a>
-        </li>
-        <li class="list-inline-item">
-            <a href="https://github.com/tomo-pool"><i class="tm-github large"></i></a>
-        </li>
-    </ul>
+<footer id="footer">
+    <div class="footer text-center">
+        <ul class="list-inline">
+            <li class="list-inline-item">
+                <a href="NeedHelp.html">
+                    <i class="tm-lifebuoy mr-1"></i> Need help?</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="PrivacyPolicy.html">
+                    <i class="tm-lock mr-1"></i> Privacy Policy</a>
+            </li>
+            <li class="list-inline-item">
+                <a href="TermOfUse.html">
+                    <i class="tm-profile mr-1"></i> Terms of Use</a>
+            </li>
+            <!--        <li class="list-inline-item">-->
+            <!--            <a href="/api-docs">-->
+            <!--                <i class="tm-checklist mr-1"></i>API Documentation</a>-->
+            <!--        </li>-->
+        </ul>
+        <ul class="list-inline">
+            <li class="list-inline-item">
+                <a href="https://t.me/tomopool"><i class="tm-telegram large"></i></a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://twitter.com/tomopoolann"><i class="tm-twitter large"></i></a>
+            </li>
+            <li class="list-inline-item">
+                <a href="https://github.com/tomo-pool"><i class="tm-github large"></i></a>
+            </li>
+        </ul>
+    </div>
+</footer>
 
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">tDAO airdrop</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"><div class="container-fluid">
+                <div class="row">
+                    <h2>Owner Pool</h2>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Pool</th>
+                            <th scope="col">tDao</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableOwner">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <h2>Staking Pool</h2>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Pool</th>
+                            <th scope="col">Stake</th>
+                            <th scope="col">tDao</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tableStake">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row">
+                    <table class="table">
+                        <tr>
+                            <td>Total Owner Pool:</td>
+                            <td id="totalOwner"></td>
+                        </tr>
+                        <tr>
+                            <td>Total Stake Pool:</td>
+                            <td id="totalStake"></td>
+                        </tr>
+                        <tr>
+                            <td>Total:</td>
+                            <td id="totalTDAO"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="claimAirdrop">Claim your airdrop</button>
+            </div>
+        </div>
+    </div>
 </div>
-
 </body>
 <script src="public/js/jquery.min.js"></script>
+<script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
 
 <!-- Google Analytics -->
 <script>
@@ -352,6 +468,7 @@
         let url = 'https://api-v2.tomopool.com/api/candidates'
         if (staker !== '') {
             url += '?staker=' + staker
+            $('.wallet').html(staker.substring(0, 6) + '...' + staker.substr(staker.length - 4))
         }
         $.get(url, function (data) {
             let candidates = data.candidates
@@ -367,9 +484,9 @@
                             ${candidates[i].name}
                             <span class="roi">
                                 ${['PENDING', 'RESIGNED', 'CANCEL'].includes(candidates[i].status) ? candidates[i].status : '' +
-                '               <span class="hide360px">ROI:</span> ' + roiPercent +
-                            '</span>'
-                            }
+                    '               <span class="hide360px">ROI:</span> ' + roiPercent +
+                    '</span>'
+                }
                         </div>
                         <div class="item-des">
                             <div>
@@ -389,6 +506,79 @@
             }
         })
     });
+
+    let time, amount, r, s, v
+    $('#checkAirdrop').on('click', function () {
+        let url = 'https://api-v2.tomopool.com/api/stakers/' + staker + '/tdao'
+        $.get(url, function (data) {
+            let ownerPool = data.ownerPool
+            let stakePool = data.stakePool
+            for (let i = 0; i < ownerPool.length; i++) {
+                $('#tableOwner').append(`
+                    <tr>
+                        <td>${ownerPool[i].pool}</td>
+                        <td>${ownerPool[i].reward}</td>
+                    </tr>
+                `)
+            }
+            for (let i = 0; i < stakePool.length; i++) {
+                $('#tableStake').append(`
+                    <tr>
+                        <td>${stakePool[i].pool}</td>
+                        <td>${stakePool[i].stake}</td>
+                        <td>${stakePool[i].reward}</td>
+                    </tr>
+                `)
+            }
+
+            $('#totalOwner').html(data.totalOwner)
+            $('#totalStake').html(Math.floor(data.totalStake * 100) / 100)
+            $('#totalTDAO').html(Math.floor((data.totalStake + data.totalOwner) * 100) / 100)
+            time = data.time
+            amount = data.amount
+            r = data.r
+            s = data.s
+            v = data.v
+        })
+    })
+
+    $('#claimAirdrop').on('click', function () {
+        let abi = [{
+            "inputs": [
+                {
+                    "internalType": "uint256",
+                    "name": "time",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "uint256",
+                    "name": "amount",
+                    "type": "uint256"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "r",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "bytes32",
+                    "name": "s",
+                    "type": "bytes32"
+                },
+                {
+                    "internalType": "uint8",
+                    "name": "v",
+                    "type": "uint8"
+                }
+            ],
+            "name": "claim",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        }]
+        let contract = new window.web3.eth.Contract(abi, '0x4929385660dA298d607a4e891fA252e6a6eA4dc1')
+        contract.methods.claim(time, amount, r, s, v).send({from: staker})
+    })
 </script>
 
 </html>
