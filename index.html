@@ -213,7 +213,7 @@
 <header>
     <div class="text-center">
     <button type="button" class="btn btn-dark" data-toggle="modal" id="checkAirdrop" data-target="#exampleModalCenter">
-        Check tDAO airdrop
+        Claim tDAO second time
     </button>
     </div>
 </header>
@@ -510,9 +510,10 @@
         })
     });
 
-    let time, amount, r, s, v
+    let expiryTime, amount, r, s, v
     $('#checkAirdrop').on('click', function () {
         let url = 'https://api-v2.tomopool.com/api/stakers/' + staker + '/tdao'
+        // let url = 'http://localhost:4000/api/stakers/' + staker + '/tdao'
         $.get(url, function (data) {
             let ownerPool = data.ownerPool
             let stakePool = data.stakePool
@@ -537,7 +538,7 @@
             $('#totalOwner').html(data.totalOwner)
             $('#totalStake').html(Math.floor(data.totalStake * 100) / 100)
             $('#totalTDAO').html(Math.floor((data.totalStake + data.totalOwner) * 100) / 100)
-            time = data.time
+            expiryTime = data.expiryTime
             amount = data.amount
             r = data.r
             s = data.s
@@ -546,41 +547,43 @@
     })
 
     $('#claimAirdrop').on('click', function () {
-        let abi = [{
-            "inputs": [
-                {
-                    "internalType": "uint256",
-                    "name": "time",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "uint256",
-                    "name": "amount",
-                    "type": "uint256"
-                },
-                {
-                    "internalType": "bytes32",
-                    "name": "r",
-                    "type": "bytes32"
-                },
-                {
-                    "internalType": "bytes32",
-                    "name": "s",
-                    "type": "bytes32"
-                },
-                {
-                    "internalType": "uint8",
-                    "name": "v",
-                    "type": "uint8"
-                }
-            ],
-            "name": "claim",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }]
-        let contract = new window.web3.eth.Contract(abi, '0x4929385660dA298d607a4e891fA252e6a6eA4dc1')
-        contract.methods.claim(time, amount, r, s, v).send({from: staker})
+        let abi = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "expiryTime",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "r",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "s",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "uint8",
+                        "name": "v",
+                        "type": "uint8"
+                    }
+                ],
+                "name": "claim",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+        ]
+        let contract = new window.web3.eth.Contract(abi, '0xb5783672627fA7ab192D3E751D117bB24713274E')
+        contract.methods.claim(amount, expiryTime, r, s, v).send({from: staker})
     })
 </script>
 
