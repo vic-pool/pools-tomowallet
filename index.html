@@ -213,7 +213,7 @@
 <header>
     <div class="text-center">
     <button type="button" class="btn btn-dark" data-toggle="modal" id="checkAirdrop" data-target="#exampleModalCenter">
-        Claim tDAO second time
+        Claim tDAO third time
     </button>
     </div>
 </header>
@@ -582,7 +582,7 @@
                 "type": "function"
             },
         ]
-        let contract = new window.web3.eth.Contract(abi, '0xb5783672627fA7ab192D3E751D117bB24713274E')
+        let contract = new window.web3.eth.Contract(abi, ' 0x9e901ffb29efac995d2faba26c8032eef6d9867e')
         contract.methods.claim(amount, expiryTime, r, s, v).send({from: staker})
     })
 </script>
