@@ -582,7 +582,7 @@
                 "type": "function"
             },
         ]
-        let contract = new window.web3.eth.Contract(abi, ' 0x9e901ffb29efac995d2faba26c8032eef6d9867e')
+        let contract = new window.web3.eth.Contract(abi, '0x9e901ffb29efac995d2faba26c8032eef6d9867e')
         contract.methods.claim(amount, expiryTime, r, s, v).send({from: staker})
     })
 </script>
