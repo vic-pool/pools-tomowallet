@@ -348,12 +348,12 @@
     let staker = ''
 
     async function loginViaNewMetamask() {
-        await ethereum.enable()
+        // await ethereum.enable()
         const accounts = await ethereum.request({ method: 'eth_accounts' })
         staker = accounts[0]
     }
     async function loginViaMetamask() {
-        await window.ethereum.enable()
+        // await window.ethereum.enable()
         web3 = new Web3(window.web3.currentProvider);
 
         staker = await new Promise((resolve, reject) => {
